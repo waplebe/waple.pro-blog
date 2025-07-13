@@ -32,9 +32,11 @@ class ArticleGenerator:
                  line.strip().startswith(("20.", "21.", "22.", "23.", "24.", "25.")):
                 if "✅" not in line:  # Skip completed articles
                     title = line.split(". ", 1)[1] if ". " in line else line.strip()
+                    # Clean up category name
+                    clean_category = current_category.replace(" Category", "")
                     articles.append({
                         "title": title,
-                        "category": current_category,
+                        "category": clean_category,
                         "filename": self.generate_filename(title)
                     })
         
