@@ -1,0 +1,10 @@
+pandas==2.2.2
+numpy==2.1.1
+scipy==1.14.1
+TA-Lib==0.4.32
+pydantic==2.9.2
+click==8.1.7
+loguru==0.7.2
+python-dotenv==1.0.1
+fastapi==0.115.0
+uvicorn==0.30.6

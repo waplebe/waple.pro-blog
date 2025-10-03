@@ -1,0 +1,14 @@
+[project]
+name = "cfd-trader"
+version = "0.1.0"
+description = "CFD market analytics, signal execution, and risk management"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cfd_trader*"]
