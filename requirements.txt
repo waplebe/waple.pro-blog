@@ -6,3 +6,5 @@ pydantic==2.9.2
 click==8.1.7
 loguru==0.7.2
 python-dotenv==1.0.1
+fastapi==0.115.0
+uvicorn==0.30.6

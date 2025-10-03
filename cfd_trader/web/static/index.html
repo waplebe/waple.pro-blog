@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CFD Trader Admin</title>
+  <style>
+    body { font-family: Inter, system-ui, Arial; margin: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+    .voice { margin-top: 16px; }
+    button { padding: 10px 16px; border-radius: 8px; border: 1px solid #333; cursor: pointer;}
+  </style>
+</head>
+<body>
+  <h1>CFD Trader Admin</h1>
+  <div class="grid">
+    <div class="card">
+      <h3>Metrics</h3>
+      <div id="metrics"></div>
+    </div>
+    <div class="card">
+      <h3>Voice Command</h3>
+      <button id="speakBtn">🎤 Speak</button>
+      <div id="lastCmd" class="voice"></div>
+    </div>
+  </div>
+
+  <script>
+  async function loadMetrics() {
+    const res = await fetch('/api/metrics');
+    const m = await res.json();
+    document.getElementById('metrics').innerHTML = `
+      <div>Equity: <b>${m.equity.toFixed(2)}</b></div>
+      <div>Balance: <b>${m.balance.toFixed(2)}</b></div>
+      <div>Open positions: <b>${m.open_positions}</b></div>
+      <div>Daily PnL: <b>${m.daily_pnl.toFixed(2)}</b></div>
+    `;
+  }
+  setInterval(loadMetrics, 3000);
+  loadMetrics();
+
+  const btn = document.getElementById('speakBtn');
+  btn.addEventListener('click', async () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) { alert('SpeechRecognition not supported'); return; }
+    const rec = new SpeechRecognition();
+    rec.lang = 'ru-RU';
+    rec.onresult = async (e) => {
+      const text = e.results[0][0].transcript;
+      document.getElementById('lastCmd').innerText = text;
+      await fetch('/api/command', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({text}) });
+    };
+    rec.start();
+  });
+  </script>
+</body>
+</html>
