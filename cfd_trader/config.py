@@ -27,6 +27,13 @@ class Settings:
     oanda_api_key: Optional[str] = os.getenv("OANDA_API_KEY")
     oanda_account_id: Optional[str] = os.getenv("OANDA_ACCOUNT_ID")
 
+    # Broker
+    broker: str = os.getenv("BROKER", "paper")
+    ctrader_client_id: Optional[str] = os.getenv("CTRADER_CLIENT_ID")
+    ctrader_client_secret: Optional[str] = os.getenv("CTRADER_CLIENT_SECRET")
+    ctrader_access_token: Optional[str] = os.getenv("CTRADER_ACCESS_TOKEN")
+    ctrader_account_id: Optional[str] = os.getenv("CTRADER_ACCOUNT_ID")
+
     # Execution
     paper_trading: bool = os.getenv("PAPER_TRADING", "true").lower() == "true"
 
