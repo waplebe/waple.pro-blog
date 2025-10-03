@@ -37,5 +37,8 @@ class Settings:
     # Execution
     paper_trading: bool = os.getenv("PAPER_TRADING", "true").lower() == "true"
 
+    # AI / NLP
+    openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
+
 
 SETTINGS = Settings()

@@ -44,6 +44,15 @@ class Metrics(BaseModel):
     equity_curve: list[float]
 
 
+class SecretsStatus(BaseModel):
+    broker: str
+    ctrader_client_id: bool
+    ctrader_client_secret: bool
+    ctrader_access_token: bool
+    ctrader_account_id: bool
+    openai_api_key: bool
+
+
 @app.get("/api/metrics", response_model=Metrics)
 async def get_metrics():
     return Metrics(
@@ -68,6 +77,18 @@ async def post_command(cmd: CommandRequest):
     if "заработай" in t or "earn" in t:
         return {"status": "ok", "action": "target_return", "value": 0.10}
     return {"status": "ok", "action": "noop"}
+
+
+@app.get("/api/secrets", response_model=SecretsStatus)
+async def get_secrets_status():
+    return SecretsStatus(
+        broker=SETTINGS.broker,
+        ctrader_client_id=bool(SETTINGS.ctrader_client_id),
+        ctrader_client_secret=bool(SETTINGS.ctrader_client_secret),
+        ctrader_access_token=bool(SETTINGS.ctrader_access_token),
+        ctrader_account_id=bool(SETTINGS.ctrader_account_id),
+        openai_api_key=bool(SETTINGS.openai_api_key),
+    )
 
 
 @app.get("/")
